@@ -239,7 +239,7 @@ var verifyOtp = ((req,res)=>{
     console.log('//////',req.body);
     var email = req.body.email;
     var otp = req.body.otp;
-    try {
+    // try {
         user.query('SELECT * FROM tb_user WHERE email ="'+email+'"  AND otp = "'+otp+'"' , function (error, results){
          console.log('999999',results !== null);            
             if (error) {
@@ -271,9 +271,9 @@ var verifyOtp = ((req,res)=>{
         },(e)=>{
             console.log('Errorrrrr8888',e);
         })
-    }catch {
-        return res.json({code : 101, status : false , message : 'Error Please Try Again'});
-    }
+    // }catch {
+    //     return res.json({code : 101, status : false , message : 'Error Please Try Again'});
+    // }
 })
 
 
@@ -330,7 +330,7 @@ var verifyResetOtp = ((req,res)=>{
     console.log('//////',req.body);
     var email = req.body.email;
     var otp = req.body.otp;
-    try {
+    // try {
         user.query('SELECT * FROM tb_user WHERE email ="'+email+'"  AND otp = "'+otp+'"' , function (error, results){
          console.log('999999',results !== null);            
             if (error) {
@@ -346,16 +346,16 @@ var verifyResetOtp = ((req,res)=>{
         },(e)=>{
             console.log('Errorrrrr8888',e);
         })
-    }catch {
-        return res.json({code : 101, status : false , message : 'Error Please Try Again'});
-    }
+    // }catch {
+    //     return res.json({code : 101, status : false , message : 'Error Please Try Again'});
+    // }
 })
 
 var saveNewPassword = ((req,res)=>{
     console.log('req.body',req.body);
     var password = req.body.password;
     var email = req.body.email;
-    try{
+    // try{
         if(!password || password === null || password === '') return res.json({code :101 , status : false, message : 'Enter Password'});
         user.query('SELECT * FROM tb_user WHERE email =?',email, async function(err,data){
             if (err){
@@ -382,9 +382,9 @@ var saveNewPassword = ((req,res)=>{
             }
         })
 
-    } catch  {
-        return res.json({code : 101, status : false, message : 'Error.Please Try Again'});
-    }
+    // } catch  {
+    //     return res.json({code : 101, status : false, message : 'Error.Please Try Again'});
+    // }
 })
 
 module.exports = {registerEmail,
