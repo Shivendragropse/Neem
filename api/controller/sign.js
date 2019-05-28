@@ -199,7 +199,7 @@ var login  = ((req,res)=>{
 
     try{
         if(req.body.mobile  ){
-            user.query('SELECT * FROM tb_user WHERE mobile ="'+mobile+'"  AND userRole = "'+userRole+'"',async function (error, results, fields) {
+            user.query('SELECT * FROM tb_user WHERE mobile ="'+mobile+'"  AND userRole = "'+userRole+'"' , async function (error, results, fields) {
                 console.log('resultsssssssssssss',results);
               if (error) {
                 console.log('errrrrrrrrrrrrrrrrrrrrr',error);
