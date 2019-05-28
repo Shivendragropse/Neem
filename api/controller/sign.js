@@ -207,7 +207,7 @@ var login  = ((req,res)=>{
                 }else{
                 if(results.length >0 ){
                     if(results[0].verifyNumber > 0){
-                      decryptedString = await bcrypt.compare(req.body.password,results[0].password);
+                    //   decryptedString = await bcrypt.compare(req.body.password,results[0].password);
                     if(await bcrypt.compare(req.body.password,results[0].password)){
                         res.json({status:true, message:'Login successfully'})
                     }else{
