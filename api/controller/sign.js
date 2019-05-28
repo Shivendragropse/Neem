@@ -233,7 +233,7 @@ var login  = ((req,res)=>{
             if(results.length >0){
                 if(results[0].activeEmail > 0){
                 //   decryptedString = cryptr.decrypt(results[0].password);
-                if(await bcrypt.compare(req.body.password,results[0].password)){
+                if( bcrypt.compare(req.body.password,results[0].password)){
                    return resolve (res.json({status:true, message:'Login successfully'}));
                 }else{
                     res.json({status:false,message:"E-mail and password does not match"});
