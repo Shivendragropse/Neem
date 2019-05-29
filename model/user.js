@@ -5,7 +5,7 @@ var user = mysql.createPool({
     user : 'root',
     password: '',
     database : 'neem',
-    debug : false
+    // debug : false
 });
 
 module.exports = user;
