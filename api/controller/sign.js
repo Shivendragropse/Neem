@@ -225,6 +225,8 @@ var login  = ((req,res)=>{
        else if (req.body.email){
             user.query('SELECT * FROM tb_user WHERE email ="'+email+'"  AND userRole = "'+userRole+'"'  ,async function (error, results, fields) {
             // console.log('resultsssssssssssss', bcrypt.compare(req.body.password,results[0].password));
+
+            
           if (error) {
             console.log('errrrrrrrrrrrrrrrrrrrrr',error);
             return  res.json({ code : 101, status:false, message:'there are some error with query'});
