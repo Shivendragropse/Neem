@@ -18,7 +18,7 @@ var transporter = nodemailer.createTransport({
 });
 
 var registerEmail = ((req,res)=>{
-
+console.log('req.body',req.body);
     var today = new Date();
     // var emailToken = randomstring.generate(64);
     const otp = randomstring.generate(6);
