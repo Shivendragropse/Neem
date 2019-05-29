@@ -199,6 +199,7 @@ var login  = ((req,res)=>{
 
     // try{
         if(req.body.mobile  ){
+           return new Promise ((resolve, reject)=>{
             user.query('SELECT * FROM tb_user WHERE mobile ="'+mobile+'"  AND userRole = "'+userRole+'"' ,   new Promise (function (error, results, fields) {
                 console.log('resultsssssssssssss',results);
               if (error) {
@@ -222,32 +223,35 @@ var login  = ((req,res)=>{
                 }
               }
             }));
+        });
         }
        else if (req.body.email){
-            user.query('SELECT * FROM tb_user WHERE email ="'+email+'"  AND userRole = "'+userRole+'"'  , new Promise (function (error, results, fields) {
+           return new Promise ((resolve, reject)=>{
+            user.query('SELECT * FROM tb_user WHERE email ="'+email+'"  AND userRole = "'+userRole+'"'  ,async function (error, results, fields) {
             console.log('resultsssssssssssss',results);
           if (error) {
             console.log('errrrrrrrrrrrrrrrrrrrrr',error);
-              res.json({ code : 101, status:false, message:'there are some error with query'})
+            return resolve ( res.json({ code : 101, status:false, message:'there are some error with query'}));
           }else{
             if(results.length >0){
                 if(results[0].activeEmail > 0){
                 //   decryptedString = cryptr.decrypt(results[0].password);
-                if( bcrypt.compare(req.body.password,results[0].password)){
+                if(await bcrypt.compare(req.body.password,results[0].password)){
                    return resolve (res.json({status:true, message:'Login successfully'}));
                 }else{
-                    res.json({status:false,message:"E-mail and password does not match"});
+                  return resolve ( res.json({status:false,message:"E-mail and password does not match"}));
                 }
 
             }else{
-                return res.json({code : 101, status:false, message: 'Please verify your E-mail'})
+                return resolve (res.json({code : 101, status:false, message: 'Please verify your E-mail'}));
     }
 
             }else{
-              res.json({status:false, message:"E-mail And User Role does not exits"});
+             return resolve (res.json({status:false, message:"E-mail And User Role does not exits"}));
             }
           }
-        }));
+        });
+        });
     }
 //    }catch {
 //         return res.json({code : 101, status : false, message : 'Error Please Try Again'});
