@@ -200,7 +200,7 @@ var login  = ((req,res)=>{
     // try{
         if(req.body.mobile  ){
            return new Promise ((resolve, reject)=>{
-            user.query('SELECT * FROM tb_user WHERE mobile ="'+mobile+'"  AND userRole = "'+userRole+'"' ,   new Promise (function (error, results, fields) {
+            user.query('SELECT * FROM tb_user WHERE mobile ="'+mobile+'"  AND userRole = "'+userRole+'"' ,   async function (error, results, fields) {
                 console.log('resultsssssssssssss',results);
               if (error) {
                 console.log('errrrrrrrrrrrrrrrrrrrrr',error);
@@ -209,7 +209,7 @@ var login  = ((req,res)=>{
                 if(results.length >0 ){
                     if(results[0].verifyNumber > 0){
                     //   decryptedString = await bcrypt.compare(req.body.password,results[0].password);
-                    if(  bcrypt.compare(req.body.password,results[0].password)){
+                    if( await bcrypt.compare(req.body.password,results[0].password)){
                       return resolve (res.json({status:true, message:'Login successfully'}));
                     }else{
                         res.json({status:false,message:"Mobile No. and password does not match"});
@@ -222,13 +222,13 @@ var login  = ((req,res)=>{
                   res.json({status:false, message:"Mobile No. And User Role does not exits"});
                 }
               }
-            }));
+            });
         });
         }
        else if (req.body.email){
            return new Promise ((resolve, reject)=>{
             user.query('SELECT * FROM tb_user WHERE email ="'+email+'"  AND userRole = "'+userRole+'"'  ,async function (error, results, fields) {
-            console.log('resultsssssssssssss',results);
+            console.log('resultsssssssssssss',await bcrypt.compare(req.body.password,results[0].password));
           if (error) {
             console.log('errrrrrrrrrrrrrrrrrrrrr',error);
             return resolve ( res.json({ code : 101, status:false, message:'there are some error with query'}));

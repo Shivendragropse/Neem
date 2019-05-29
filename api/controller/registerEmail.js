@@ -314,7 +314,7 @@ var forgetPassword = ((req,res)=>{
                         return res.json({code: 101, status : false, message : 'Please Try Again'});
                  if (saved ){
                      console.log('savedddddd',saved);
-                     return res.json({code : 100, status : true ,email : email,Otp : Otp,message :"Reset Password Link sent to your email address" })
+                     return res.json({code : 100, status : true ,email : email,Otp : Otp,message :"Reset Password Otp sent to your email address" })
                  }else {
                      return res.json({code : 101, status : false, message : "Please Try To reset Again"});
                  }
@@ -342,7 +342,7 @@ var verifyResetOtp = ((req,res)=>{
                   console.log('===========================',results[0] === undefined || results[0] === null || results[0] ==='');
                 return res.json({code: 101, status : false ,message :'Enter Correct Otp'});
               }else{
-                return res.json({code : 100, status: true, message : 'Otp Verified'});            }           
+                return res.json({code : 100, status: true, message : 'Otp Verified', data:{}});            }           
         },(e)=>{
             console.log('Errorrrrr8888',e);
         })
