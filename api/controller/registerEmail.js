@@ -84,7 +84,6 @@ var registerEmail = ((req,res)=>{
                            <h1>Hello ${req.body.email}</h1>
                            <h2>This is your One Time Password : ${otp} </h2>
                            `
-                        //    <a title = "Reset" href="${NEEM}/api/verifyEmail/${emailToken}/${otp}">Click here to verify Your Password</a>
                 };
                 transporter.sendMail(mailOptions, function (err,info){
                     if (err) {
@@ -98,7 +97,7 @@ var registerEmail = ((req,res)=>{
                                 return res.json({code : 101 , status : false, message : 'Some Technical Problem', data :''});
                             }else{
                                 
-                                return res.json({code : 100 , status: true,otp : otp, message : 'Succssfully Saved Please Verify Your E-mail Address',data : insert});
+                                return res.json({code : 100 , status: true,otp: otp, message : 'Succssfully Saved Please Verify Your E-mail Address',data : insert});
                             }
                         })  
                         
@@ -123,7 +122,6 @@ var registerEmail = ((req,res)=>{
                                <h1>Hello ${req.body.email}</h1>
                                <h2>This is your One Time Password : ${otp} </h2>
                                `
-                            //    <a title = "Reset" href="${NEEM}/api/verifyEmail/${emailToken}/${otp}">Click here to verify Your Password</a>
                     };
                     transporter.sendMail(mailOptions, function (err,info){
                         if (err) {
@@ -137,7 +135,7 @@ var registerEmail = ((req,res)=>{
                                     return res.json({code : 101 , status : false, message : 'Some Technical Problem', data :''});
                                 }else{
                                     
-                                    return res.json({code : 100 , status: true,etoken :otp, message : 'Succssfully Saved Please Verify Your E-mail Address',data : insert});
+                                    return res.json({code : 100 , status: true,otp :otp, message : 'Succssfully Saved Please Verify Your E-mail Address',data : insert});
                                 }
                             })  
                             
@@ -162,7 +160,6 @@ var registerEmail = ((req,res)=>{
                                <h1>Hello ${req.body.email}</h1>
                                <h2>This is your One Time Password : ${otp} </h2>
                                `
-                            //    <a title = "Reset" href="${NEEM}/api/verifyEmail/${emailToken}/${otp}">Click here to verify Your Password</a>
                     };
                     transporter.sendMail(mailOptions, function (err,info){
                         if (err) {
@@ -176,7 +173,7 @@ var registerEmail = ((req,res)=>{
                                     return res.json({code : 101 , status : false, message : 'Some Technical Problem', data :''});
                                 }else{
                                     
-                                    return res.json({code : 100 , status: true,etoken :otp, message : 'Succssfully Saved Please Verify Your E-mail Address',data : insert});
+                                    return res.json({code : 100 , status: true,otp :otp, message : 'Succssfully Saved Please Verify Your E-mail Address',data : insert});
                                 }
                             })  
                             
