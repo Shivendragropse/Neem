@@ -1,6 +1,4 @@
 var user = require('../../model/user');
-// var Cryptr = require('cryptr');
-// var cryptr = new Cryptr('myTotalySecretKey');
 var bcrypt = require('bcryptjs');
 var nodemailer = require ('nodemailer');
 var smtpTransport = require ('nodemailer-smtp-transport');

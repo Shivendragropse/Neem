@@ -1,6 +1,4 @@
 var user = require('../../model/user');
-// var Cryptr = require ('cryptr');
-// var cryptr = new Cryptr('myTotalySecretKey');
 var bcrypt = require('bcryptjs');
 var SendOtp = require('sendotp');
 var sendOtp = new SendOtp('277721ALds15TD095ce418d7');
@@ -197,22 +195,22 @@ var login  = ((req,res)=>{
         var email=req.body.email;        
         var password=req.body.password;
 
-    // try{
+    try{
         if(req.body.mobile  ){
-           return new Promise ((resolve, reject)=>{
-            user.query('SELECT * FROM tb_user WHERE mobile ="'+mobile+'"  AND userRole = "'+userRole+'"' ,   async function (error, results, fields) {
+          
+            user.query('SELECT * FROM tb_user WHERE mobile ="'+mobile+'"  AND userRole = "'+userRole+'"' , async function (error, results, fields) {
                 console.log('resultsssssssssssss',results);
               if (error) {
                 console.log('errrrrrrrrrrrrrrrrrrrrr',error);
-                  res.json({ code : 101, status:false, message:'there are some error with query'})
+                  (res.json({ code : 101, status:false, message:'there are some error with query'}));
                 }else{
                 if(results.length >0 ){
                     if(results[0].verifyNumber > 0){
-                    //   decryptedString = await bcrypt.compare(req.body.password,results[0].password);
-                    if( await bcrypt.compare(req.body.password,results[0].password)){
-                      return resolve (res.json({status:true, message:'Login successfully'}));
+                      console.log('///////////////////' , bcrypt.compare(req.body.password,results[0].password));
+                    if( await  bcrypt.compare(req.body.password,results[0].password)){
+                      return  res.json({status:true, message:'Login successfully'});
                     }else{
-                        res.json({status:false,message:"Mobile No. and password does not match"});
+                       return  res.json({status:false,message:"Mobile No. and password does not match"});
                     }
     
                 }else{
@@ -223,39 +221,35 @@ var login  = ((req,res)=>{
                 }
               }
             });
-        });
         }
        else if (req.body.email){
-           return new Promise ((resolve, reject)=>{
             user.query('SELECT * FROM tb_user WHERE email ="'+email+'"  AND userRole = "'+userRole+'"'  ,async function (error, results, fields) {
-            console.log('resultsssssssssssss',await bcrypt.compare(req.body.password,results[0].password));
+            // console.log('resultsssssssssssss', bcrypt.compare(req.body.password,results[0].password));
           if (error) {
             console.log('errrrrrrrrrrrrrrrrrrrrr',error);
-            return resolve ( res.json({ code : 101, status:false, message:'there are some error with query'}));
+            return  res.json({ code : 101, status:false, message:'there are some error with query'});
           }else{
             if(results.length >0){
                 if(results[0].activeEmail > 0){
-                //   decryptedString = cryptr.decrypt(results[0].password);
-                if(await bcrypt.compare(req.body.password,results[0].password)){
-                   return resolve (res.json({status:true, message:'Login successfully'}));
+                if( await bcrypt.compare(req.body.password,results[0].password)){
+                   return  res.json({status:true, message:'Login successfully'});
                 }else{
-                  return resolve ( res.json({status:false,message:"E-mail and password does not match"}));
+                  return   res.json({status:false,message:"E-mail and password does not match"});
                 }
 
             }else{
-                return resolve (res.json({code : 101, status:false, message: 'Please verify your E-mail'}));
+                return  res.json({code : 101, status:false, message: 'Please verify your E-mail'});
     }
 
             }else{
-             return resolve (res.json({status:false, message:"E-mail And User Role does not exits"}));
+             return  res.json({status:false, message:"E-mail And User Role does not exits"});
             }
           }
-        });
-        });
+        })
     }
-//    }catch {
-//         return res.json({code : 101, status : false, message : 'Error Please Try Again'});
-//     }
+   }catch {
+        return res.json({code : 101, status : false, message : 'Error Please Try Again'});
+    }
 }
 })
 
