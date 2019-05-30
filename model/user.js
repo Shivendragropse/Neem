@@ -6,7 +6,7 @@ var user = mysql.createPool({
     user : 'root',
     password: '123456',
     database : 'neem',
-    // debug : false
+    debug : false
 })
 
 user.on('connection',function(connection){
