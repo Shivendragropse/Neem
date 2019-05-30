@@ -25,7 +25,7 @@ var fetchUser = ((req,res)=>{
        });
 
 var updateProfile = ((req,res)=>{
-    try {
+    // try {
         var mobile = req.body.mobile;
         var email = req.body.email;
         
@@ -55,9 +55,9 @@ var updateProfile = ((req,res)=>{
             }
         })
 
-    }catch{
-        return res.json({code : 101, status : false, message : 'SomeThing Went Wrong'});
-    }
+    // }catch{
+    //     return res.json({code : 101, status : false, message : 'SomeThing Went Wrong'});
+    // }
 })
 
 module.exports = {fetchUser,updateProfile};
