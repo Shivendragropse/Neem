@@ -1,12 +1,12 @@
 var mysql = require('mysql');
 
 var user = mysql.createPool({
-    host : 'localhost',
+    host : 'http://3.16.156.0:3000',
     port : '3306',
     user : 'root',
     password: '123456',
     database : 'neem',
-    debug : false
+    // debug : false
 })
 
 user.on('connection',function(connection){
