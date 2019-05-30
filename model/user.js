@@ -3,8 +3,8 @@ var mysql = require('mysql');
 var user = mysql.createPool({
     host : 'localhost',
     port : '3306',
-    user : 'shivendra.jadon8357@gmail.com',
-    password: 'Jadon@1234',
+    user : 'root',
+    password: '',
     database : 'neem',
     // debug : false
 })

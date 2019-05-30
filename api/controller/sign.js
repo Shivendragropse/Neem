@@ -195,7 +195,7 @@ var login  = ((req,res)=>{
         var email=req.body.email;        
         var password=req.body.password;
 
-    try{
+    // try{
         if(req.body.mobile  ){
           
             user.query('SELECT * FROM tb_user WHERE mobile ="'+mobile+'"  AND userRole = "'+userRole+'"' , async function (error, results, fields) {
@@ -249,9 +249,9 @@ var login  = ((req,res)=>{
           }
         })
     }
-   }catch {
-        return res.json({code : 101, status : false, message : 'Error Please Try Again'});
-    }
+//    }catch {
+//         return res.json({code : 101, status : false, message : 'Error Please Try Again'});
+//     }
 }
 })
 
