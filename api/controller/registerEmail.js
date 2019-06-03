@@ -288,7 +288,7 @@ var forgetPassword = ((req,res)=>{
         if(err)
       return res.json({code : 101, status : false, message : ' Oops! There is an error'});
     
-      if(!data ||data==null ||data==undefined)return res.send({ status: false, message: "User does not exist"});
+      if(!data[0] ||data[0] ==null ||data[0] ==undefined || data[0]=='')return res.send({ status: false, message: "User does not exist"});
    
      if(data[0].activeEmail == 0) {
      return res.json({code : 101,status: false, message :"Please activate first, using the link sent to your email address"});
