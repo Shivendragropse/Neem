@@ -12,8 +12,10 @@ var NEEM = env.parsed['NEEMurl'];
 var transporter = nodemailer.createTransport({
     service : 'Gmail',
     host : 'smtp.gmail.com',
-    port: 465,
-    secure: true, 
+    port: 587,
+    secureConnection: false, 
+    requiresAuth: true,
+    domains: ["gmail.com"],
     auth : {
          user: 'er.jitendra7104@gmail.com',
         pass: 'jitu918333'
