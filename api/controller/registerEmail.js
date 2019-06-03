@@ -17,8 +17,8 @@ var transporter = nodemailer.createTransport({
     requiresAuth: true,
     domains: ["gmail.com"],
     auth : {
-         user: 'er.jitendra7104@gmail.com',
-        pass: 'jitu918333'
+         user: 'shivendra.techgropse@gmail.com',
+        pass: 'gropse@7117'
     }
 });
 
@@ -26,7 +26,7 @@ var registerEmail = ((req,res)=>{
 console.log('req.body',req.body);
     var today = new Date();
     // var emailToken = randomstring.generate(64);
-    const otp = randomstring.generate(6);
+    const otp = randomstring.generate(4);
     var otpExpires = Date.now() + 86400000;
     var encryptedString = bcrypt.hashSync(req.body.password, 10);
     var log = {
@@ -82,7 +82,7 @@ console.log('req.body',req.body);
                 if(data[0].cnt >0){
                     return res.json({code : 101 , status : false , message : 'E-mail Already Exists Please Try With A Another E-mail'});
                 }else { const mailOptions = {
-                    from : 'er.jitendra7104@gmail.com',
+                    from : 'shivendra.techgropse@gmail.com',
                     to  : req.body.email,
                     subject : 'Account Activation | NEEM',
                     html: `<body>
@@ -120,7 +120,7 @@ console.log('req.body',req.body);
                     if(data[0].cnt >0){
                         return res.json({code : 101 , status : false , message : 'E-mail Already Exists Please Try With A Another E-mail'});
                     }else { const mailOptions = {
-                        from : 'er.jitendra7104@gmail.com',
+                        from : 'shivendra.techgropse@gmail.com',
                         to  : req.body.email,
                         subject : 'Account Activation | NEEM',
                         html: `<body>
@@ -158,7 +158,7 @@ console.log('req.body',req.body);
                     if(data[0].cnt >0){
                         return res.json({code : 101 , status : false , message : 'E-mail Already Exists Please Try With A Another E-mail'});
                     }else { const mailOptions = {
-                        from : 'er.jitendra7104@gmail.com',
+                        from : 'shivendra.techgropse@gmail.com',
                         to  : req.body.email,
                         subject : 'Account Activation | NEEM',
                         html: `<body>
@@ -280,7 +280,7 @@ var verifyOtp = ((req,res)=>{
 var forgetPassword = ((req,res)=>{
     console.log('req.body',req.body);
     var email = req.body.email;
-    const Otp = randomstring.generate(6);
+    const Otp = randomstring.generate(4);
     var otp = Otp;
 
     user.query('SELECT * FROM tb_user WHERE email =?',email, function(err,data){
@@ -294,7 +294,7 @@ var forgetPassword = ((req,res)=>{
      return res.json({code : 101,status: false, message :"Please activate first, using the link sent to your email address"});
      }else {
          var mailOptions = {
-            from: `er.jitendra7104@gmail.com`,
+            from: `shivendra.techgropse@gmail.com`,
             to : req.body.email,
             subject : 'Forget Password | NEEM',
             html : `
