@@ -1,7 +1,7 @@
 var user = require('../../model/user');
 var bcrypt = require('bcryptjs');
 var SendOtp = require('sendotp');
-var sendOtp = new SendOtp('277721ALds15TD095ce418d7');
+var sendOtp = new SendOtp('232881A0qhC1tUiPK5b7bbad0');
 
 
 var registerMobile = ((req,res)=>{
@@ -101,7 +101,11 @@ var registerMobile = ((req,res)=>{
                     }else{
                         console.log('Insert',insert);
                         sendOtp.send(req.body.mobile, "NEEMAP", function(err,data){
+                            if(err){
+                                return res.json({code: 101, status:false, message: 'Network Error. Unable to send sms currently'});
+                            }else{
                             return res.json({code : 100, status :true, message : 'Succssfully Saved Please Verify Your Mobile No.', data :insert });
+                            }
                         })
                     }
                })    
@@ -129,7 +133,11 @@ var registerMobile = ((req,res)=>{
                     }else{
                         console.log('Insert',insert);
                         sendOtp.send(req.body.mobile, "NEEMAP", function(err,data){
+                            if(err){
+                                return res.json({code: 101, status:false, message: 'Network Error. Unable to send sms currently'});
+                            }else{
                             return res.json({code : 100, status :true, message : 'Succssfully Saved Please Verify Your Mobile No.', data :insert });
+                            }
                         })
                     }
                })    
@@ -210,7 +218,7 @@ var login  = ((req,res)=>{
                 }else{
                 if(results.length >0 ){
                     if(results[0].verifyNumber > 0){
-                      console.log('///////////////////' , bcrypt.compare(req.body.password,results[0].password));
+                    //   console.log('///////////////////' , bcrypt.compare(req.body.password,results[0].password));
                     if( await  bcrypt.compare(req.body.password,results[0].password)){
                       return  res.json({status:true, message:'Login successfully'});
                     }else{
