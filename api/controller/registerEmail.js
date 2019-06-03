@@ -11,6 +11,7 @@ var NEEM = env.parsed['NEEMurl'];
 
 var transporter = nodemailer.createTransport({
     service : 'Gmail',
+    host : 'smtp.gmail.com',
     auth : {
         user: 'er.jitendra7104@gmail.com',
         pass: 'jitu918333'

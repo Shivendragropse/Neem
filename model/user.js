@@ -4,9 +4,9 @@ var user = mysql.createPool({
     host : 'localhost',
     // port : '3306',
     user : 'root',
-    password: '123456',
+    password: '',
     database : 'neem',
-    // debug : false
+    debug : false
 })
 
 user.on('connection',function(connection){
