@@ -1,7 +1,7 @@
 var user = require('../../model/user');
 var bcrypt = require('bcryptjs');
 var SendOtp = require('sendotp');
-var sendOtp = new SendOtp('232881A0qhC1tUiPK5b7bbad0');
+var sendOtp = new SendOtp('277721ALds15TD095ce418d7');
 
 
 var registerMobile = ((req,res)=>{
