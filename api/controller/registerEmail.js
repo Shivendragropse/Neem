@@ -254,9 +254,9 @@ var verifyOtp = ((req,res)=>{
                 return res.json({code: 101, status : false ,message :'Enter Correct Otp'});
               }else{
                 
-            if(results[0].activeEmail>0){
-                return res.json({code : 101, status : false, message : 'Error! Account already verified'})
-            } else{
+            // if(results[0].activeEmail>0){
+            //     return res.json({code : 101, status : false, message : 'Error! Account already verified'})
+            // } else{
                  user.query('UPDATE `tb_user` SET activeEmail=true AND otp ="'+otp+'"', function(err,saved){
                      if(err){
                          console.log('errrrr',err);
@@ -268,7 +268,7 @@ var verifyOtp = ((req,res)=>{
                      }
                      return res.json({code: 100, status : true, message: 'E-mail Verified SuccessFully'});
                  })
-             }
+            //  }
             }           
         },(e)=>{
             console.log('Errorrrrr8888',e);
