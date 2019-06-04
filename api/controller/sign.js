@@ -105,7 +105,7 @@ var registerMobile = ((req,res)=>{
                             if(err){
                                 return res.json({code: 101, status:false, message: 'Network Error. Unable to send sms currently'});
                             }else{
-                            return res.json({code : 100, status :true, message : 'Succssfully Saved Please Verify Your Mobile No.', data :insert });
+                            return res.json({code : 100, status :true, message : 'Succssfully Saved Please Verify Your Mobile No.', data :{} });
                             }
                         })
                     }
@@ -221,7 +221,7 @@ var login  = ((req,res)=>{
                     if(results[0].verifyNumber > 0){
                     //   console.log('///////////////////' , bcrypt.compare(req.body.password,results[0].password));
                     if( await  bcrypt.compare(req.body.password,results[0].password)){
-                      return  res.json({status:true, message:'Login successfully'});
+                      return  res.json({status:true, message:'Login successfully' , data :{}});
                     }else{
                        return  res.json({status:false,message:"Mobile No. and password does not match"});
                     }
@@ -230,7 +230,7 @@ var login  = ((req,res)=>{
                     return res.json({code : 101, status:false, message: 'Please verify your Mobile no.'})
               }
                 }else{
-                  res.json({status:false, message:"Mobile No. And User Role does not exits"});
+                  res.json({code : 101 ,status:false, message:"Mobile No. And User Role does not exits", data: {}});
                 }
               }
             });
