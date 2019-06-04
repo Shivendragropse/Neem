@@ -221,9 +221,9 @@ var login  = ((req,res)=>{
                     if(results[0].verifyNumber > 0){
                     //   console.log('///////////////////' , bcrypt.compare(req.body.password,results[0].password));
                     if( await  bcrypt.compare(req.body.password,results[0].password)){
-                      return  res.json({status:true, message:'Login successfully' , data :{}});
+                      return  res.json({status:true, message:'Login successfully' , data :{results}});
                     }else{
-                       return  res.json({status:false,message:"Mobile No. and password does not match"});
+                       return  res.json({code : 101, status:false,message:"Mobile No. and password does not match" , data :{}});
                     }
     
                 }else{
@@ -247,9 +247,9 @@ var login  = ((req,res)=>{
             if(results.length >0){
                 if(results[0].activeEmail > 0){
                 if( await bcrypt.compare(req.body.password,results[0].password)){
-                   return  res.json({status:true, message:'Login successfully'});
+                   return  res.json({code : 100, status:true, message:'Login successfully', data :{results}});
                 }else{
-                  return   res.json({status:false,message:"E-mail and password does not match"});
+                  return   res.json({code : 101,status:false,message:"E-mail and password does not match", data :{}});
                 }
 
             }else{
@@ -257,7 +257,7 @@ var login  = ((req,res)=>{
     }
 
             }else{
-             return  res.json({status:false, message:"E-mail And User Role does not exits"});
+             return  res.json({code : 101, status:false, message:"E-mail And User Role does not exits", data : {}});
             }
           }
         })
