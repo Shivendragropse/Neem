@@ -47,35 +47,35 @@ var registerMobile = ((req,res)=>{
         errors.forEach((err)=>{
             errorMessage.push(err.msg);
         });
-        return res.json({code : 101, status : false, message : errorMessage[0], data : ''});
+        return res.json({code : 101, status : false, message : errorMessage[0], data : {}});
     }else{
     if (req.body.userRole == 1){
     user.query("SELECT COUNT(*) AS cnt FROM tb_user WHERE mobile = ? ", req.body.mobile, function(err , data){
-        console.log('66666',data);
+        console.log('66666',data[0]);
     if(err){
         console.log('eeeeeeeeeeeeeeeeee',err);
 
-        return res.json({code : 101, status :false, message : 'SomeThing went wrong',data: ''});
+        return res.json({code : 101, status :false, message : 'SomeThing went wrong',data: {}});
     }   
     else{
         if(data[0].cnt > 0){  
             console.log('1111',data[0].cnt > 0);
-            return res.json({code : 101, status :false, message : 'Mobile no. Already Exists Please try with a different Mobile No.',data:''});
+            return res.json({code : 101, status :false, message : 'Mobile no. Already Exists Please try with a different Mobile No.',data:{}});
         }else{
             user.query('INSERT INTO tb_user SET ?' , log, function(err , insert){
                if(err){
         console.log('errorrrrrrrrrrrrrrrrrr',err);
-                   return res.json({code : 101, status :false, message : 'Some Technical Problem',data:''});
+                   return res.json({code : 101, status :false, message : 'Some Technical Problem',data:{}});
                 }else{
                     console.log('Insert',insert);
-                    sendOtp.send(req.body.mobile, "NEEMAP", function(err,data){
-                        if(err){
-                            return res.json({code: 101, status:false, message: 'Network Error. Unable to send sms currently'});
-                        }else{
+                    // sendOtp.send(req.body.mobile, "NEEMAP", function(err,data){
+                        // if(err){
+                        //     return res.json({code: 101, status:false, message: 'Network Error. Unable to send sms currently'});
+                        // }else{
                             console.log('data123456',data);
-                        return res.json({code : 100, status :true, message : 'Succssfully Saved Please Verify Your Mobile No.', data :insert });
-                        }
-                    })
+                        return res.json({code : 100, status :true, message : 'Succssfully Saved Please Verify Your Mobile No.', data :{insert} });
+                        // }
+                    // })
                 }
            })    
 
@@ -88,24 +88,24 @@ var registerMobile = ((req,res)=>{
         if(err){
             console.log('eeeeeeeeeeeeeeeeee',err);
     
-            return res.json({code : 101, status :false, message : 'SomeThing went wrong',data: ''});
+            return res.json({code : 101, status :false, message : 'SomeThing went wrong',data: {}});
         }   
         else{
             if(data[0].cnt > 0){  
                 console.log('1111',data[0].cnt > 0);
-                return res.json({code : 101, status :false, message : 'Mobile no. Already Exists Please try with a different Mobile No.',data:''});
+                return res.json({code : 101, status :false, message : 'Mobile no. Already Exists Please try with a different Mobile No.',data:{}});
             }else{
                 user.query('INSERT INTO tb_user SET ?' , log, function(err , insert){
                    if(err){
             console.log('errorrrrrrrrrrrrrrrrrr',err);
-                       return res.json({code : 101, status :false, message : 'Some Technical Problem',data:''});
+                       return res.json({code : 101, status :false, message : 'Some Technical Problem',data:{}});
                     }else{
                         console.log('Insert',insert);
                         sendOtp.send(req.body.mobile, "NEEMAP", function(err,data){
                             if(err){
                                 return res.json({code: 101, status:false, message: 'Network Error. Unable to send sms currently'});
                             }else{
-                            return res.json({code : 100, status :true, message : 'Succssfully Saved Please Verify Your Mobile No.', data :{} });
+                            return res.json({code : 100, status :true, message : 'Succssfully Saved Please Verify Your Mobile No.', data :{insert} });
                             }
                         })
                     }
@@ -120,24 +120,24 @@ var registerMobile = ((req,res)=>{
         if(err){
             console.log('eeeeeeeeeeeeeeeeee',err);
     
-            return res.json({code : 101, status :false, message : 'SomeThing went wrong',data: ''});
+            return res.json({code : 101, status :false, message : 'SomeThing went wrong',data: {}});
         }   
         else{
             if(data[0].cnt > 0){  
                 console.log('1111',data[0].cnt > 0);
-                return res.json({code : 101, status :false, message : 'Mobile no. Already Exists Please try with a different Mobile No.',data:''});
+                return res.json({code : 101, status :false, message : 'Mobile no. Already Exists Please try with a different Mobile No.',data:{}});
             }else{
                 user.query('INSERT INTO tb_user SET ?' , log, function(err , insert){
                    if(err){
             console.log('errorrrrrrrrrrrrrrrrrr',err);
-                       return res.json({code : 101, status :false, message : 'Some Technical Problem',data:''});
+                       return res.json({code : 101, status :false, message : 'Some Technical Problem',data:{}});
                     }else{
                         console.log('Insert',insert);
                         sendOtp.send(req.body.mobile, "NEEMAP", function(err,data){
                             if(err){
                                 return res.json({code: 101, status:false, message: 'Network Error. Unable to send sms currently'});
                             }else{
-                            return res.json({code : 100, status :true, message : 'Succssfully Saved Please Verify Your Mobile No.', data :insert });
+                            return res.json({code : 100, status :true, message : 'Succssfully Saved Please Verify Your Mobile No.', data :{insert} });
                             }
                         })
                     }
@@ -200,7 +200,7 @@ var login  = ((req,res)=>{
         errors.forEach((err)=>{
             errorMessage.push(err.msg);
         });
-        return res.json({code : 101, status : false, message : errorMessage[0], data : ''});
+        return res.json({code : 101, status : false, message : errorMessage[0], data : {}});
     }else{
         
         var mobile=req.body.mobile;
@@ -219,7 +219,6 @@ var login  = ((req,res)=>{
                 }else{
                 if(results.length >0 ){
                     if(results[0].verifyNumber > 0){
-                    //   console.log('///////////////////' , bcrypt.compare(req.body.password,results[0].password));
                     if( await  bcrypt.compare(req.body.password,results[0].password)){
                       return  res.json({status:true, message:'Login successfully' , data :{results}});
                     }else{
@@ -237,7 +236,6 @@ var login  = ((req,res)=>{
         }
        else if (req.body.email){
             user.query('SELECT * FROM tb_user WHERE email ="'+email+'"   AND userRole = "'+userRole+'"'  ,async function (error, results, fields) {
-            // console.log('resultsssssssssssss', bcrypt.compare(req.body.password,results[0].password));
 
             
           if (error) {

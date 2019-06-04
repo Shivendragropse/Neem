@@ -13,7 +13,7 @@ router.post('/verifyResetPass',sign.verifyResetPass);
 router.post('/resestPass',sign.saveNewPassword);
 router.post('/registerEmail',registerEmail.registerEmail);
 // router.get('/verifyEmail/:token/:otp',registerEmail.verifyEmail);
-router.post('/verifyOtp',registerEmail.verifyOtp);
+router.post('/verifyEmail',registerEmail.verifyOtp);
 router.post('/forgetPassword',registerEmail.forgetPassword);
 router.post('/verifyResetOtp',registerEmail.verifyResetOtp);
 router.post('/resetPassword',registerEmail.saveNewPassword);

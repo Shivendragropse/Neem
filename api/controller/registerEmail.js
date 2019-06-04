@@ -72,10 +72,11 @@ console.log('req.body',req.body);
         errors.forEach((err)=>{
             errorMessage.push(err.msg);
         });
-        return res.json({code: 101, status : false, message : errorMessage[0], data:''})
+        return res.json({code: 101, status : false, message : errorMessage[0], data:{}})
     }else {
         if(req.body.userRole == 1){
         user.query("SELECT COUNT(*) AS cnt FROM tb_user WHERE email = ?",req.body.email, function(err, data){
+            console.log('123456799',data);
             if(err){
                 return res.json({code : 101, status : false, message : 'Something Went Wrong'});
             }else {
@@ -95,14 +96,14 @@ console.log('req.body',req.body);
                         console.log('errororoororororoororoo',err);
                         return res.json({code: 101 ,status : false, message : 'Network Error. Unable to send email currently'})
                     }else{
-                        console.log('infooooooooooooooooooo', info);
+                        // console.log('infooooooooooooooooooo', info);
                         user.query("INSERT INTO tb_user SET ?",log , function(err , insert) {
-                            console.log('insertttttt',err,insert);
+                            // console.log('insertttttt',err,insert);
                             if(err) {
-                                return res.json({code : 101 , status : false, message : 'Some Technical Problem', data :''});
+                                return res.json({code : 101 , status : false, message : 'Some Technical Problem', data :{}});
                             }else{
                                 
-                                return res.json({code : 100 , status: true,otp: otp, message : 'Succssfully Saved Please Verify Your E-mail Address',data : insert});
+                                return res.json({code : 100 , status: true,otp: otp, message : 'Succssfully Saved Please Verify Your E-mail Address',data : {insert}});
                             }
                         })  
                         
@@ -137,10 +138,10 @@ console.log('req.body',req.body);
                             user.query("INSERT INTO tb_user SET ?",log , function(err , insert) {
                                 console.log('insertttttt',err,insert);
                                 if(err) {
-                                    return res.json({code : 101 , status : false, message : 'Some Technical Problem', data :''});
+                                    return res.json({code : 101 , status : false, message : 'Some Technical Problem', data :{}});
                                 }else{
                                     
-                                    return res.json({code : 100 , status: true,otp :otp, message : 'Succssfully Saved Please Verify Your E-mail Address',data : insert});
+                                    return res.json({code : 100 , status: true,otp :otp, message : 'Succssfully Saved Please Verify Your E-mail Address',data : {insert}});
                                 }
                             })  
                             
@@ -152,11 +153,12 @@ console.log('req.body',req.body);
             })
            }else if (req.body.userRole == 3){
             user.query("SELECT COUNT(*) AS cnt FROM tb_user WHERE email = ?",req.body.email, function(err, data){
+                console.log('123456789',data[0]);
                 if(err){
                     return res.json({code : 101, status : false, message : 'Something Went Wrong'});
                 }else {
                     if(data[0].cnt >0){
-                        return res.json({code : 101 , status : false , message : 'E-mail Already Exists Please Try With A Another E-mail'});
+                        return res.json({code : 101 , status : false , message : 'E-mail Already Exists Please Try With A Another E-mail', data:{}});
                     }else { const mailOptions = {
                         from : 'shivendra.techgropse@gmail.com',
                         to  : req.body.email,
@@ -169,16 +171,16 @@ console.log('req.body',req.body);
                     transporter.sendMail(mailOptions, function (err,info){
                         if (err) {
                             console.log('errororoororororoororoo',err);
-                            return res.json({code: 101 ,status : false, message : 'Network Error. Unable to send email currently'})
+                            return res.json({code: 101 ,status : false, message : 'Network Error. Unable to send email currently', data:{}})
                         }else{
-                            console.log('infooooooooooooooooooo', info);
+                            // console.log('infooooooooooooooooooo', info);
                             user.query("INSERT INTO tb_user SET ?",log , function(err , insert) {
-                                console.log('insertttttt',err,insert);
+                                // console.log('insertttttt',err,insert);
                                 if(err) {
-                                    return res.json({code : 101 , status : false, message : 'Some Technical Problem', data :''});
+                                    return res.json({code : 101 , status : false, message : 'Some Technical Problem', data :{}});
                                 }else{
-                                    
-                                    return res.json({code : 100 , status: true,otp :otp, message : 'Succssfully Saved Please Verify Your E-mail Address',data : insert});
+                                    console.log('insert',insert);
+                                    return res.json({code : 100 , status: true,otp :otp, message : 'Succssfully Saved Please Verify Your E-mail Address',data : {insert}});
                                 }
                             })  
                             
@@ -190,7 +192,7 @@ console.log('req.body',req.body);
             })
            }
            else {
-           return res.json({code : 101, status : false , message: 'Please fill Valid Role'})
+           return res.json({code : 101, status : false , message: 'Please fill Valid Role', data:{}})
            }
     }
 })
@@ -244,7 +246,7 @@ var verifyOtp = ((req,res)=>{
          console.log('999999',results !== null);            
             if (error) {
                 console.log('errrr2222',err);
-                return res.json({code : 101, status : false, message : 'Error Occured'});
+                return res.json({code : 101, status : false, message : 'Error Occured', });
             }
               console.log('888888888',results[0]);  
               if(results[0] === undefined || results[0] === null || results[0] ==='' ){
@@ -342,7 +344,7 @@ var verifyResetOtp = ((req,res)=>{
                   console.log('===========================',results[0] === undefined || results[0] === null || results[0] ==='');
                 return res.json({code: 101, status : false ,message :'Enter Correct Otp'});
               }else{
-                return res.json({code : 100, status: true, message : 'Otp Verified', data:{}});            }           
+                return res.json({code : 100, status: true, message : 'Otp Verified', });            }           
         },(e)=>{
             console.log('Errorrrrr8888',e);
         })
