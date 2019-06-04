@@ -68,14 +68,14 @@ var registerMobile = ((req,res)=>{
                    return res.json({code : 101, status :false, message : 'Some Technical Problem',data:{}});
                 }else{
                     console.log('Insert',insert);
-                    // sendOtp.send(req.body.mobile, "NEEMAP", function(err,data){
-                        // if(err){
-                        //     return res.json({code: 101, status:false, message: 'Network Error. Unable to send sms currently'});
-                        // }else{
+                    sendOtp.send(req.body.mobile, "NEEMAP", function(err,data){
+                        if(err){
+                            return res.json({code: 101, status:false, message: 'Network Error. Unable to send sms currently'});
+                        }else{
                             console.log('data123456',data);
                         return res.json({code : 100, status :true, message : 'Succssfully Saved Please Verify Your Mobile No.', data :{insert} });
-                        // }
-                    // })
+                        }
+                    })
                 }
            })    
 
@@ -173,7 +173,7 @@ var verifyMobileNumber = ((req,res)=>{
                 }
             })
         }else{
-            return res.json({code : 101, status: false, message: 'Otp Verification Failed'})
+            return res.json({code : 101, status: false, message: 'Otp Verification Failed Please Try Again'})
         }
 
     }

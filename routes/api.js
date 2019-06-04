@@ -8,15 +8,15 @@ var fetchUser = require('../api/controller/fetchUser');
 router.post('/registerMobile',sign.registerMobile);
 router.post('/login',sign.login);
 router.post('/verifyMobileNumber',sign.verifyMobileNumber);
-router.post('/forgetPass',sign.forgetPass);
-router.post('/verifyResetPass',sign.verifyResetPass);
-router.post('/resestPass',sign.saveNewPassword);
+router.post('/forgetPassMobile',sign.forgetPass);
+router.post('/verifyResetPassMobile',sign.verifyResetPass);
+router.post('/resestPassMobile',sign.saveNewPassword);
 router.post('/registerEmail',registerEmail.registerEmail);
 // router.get('/verifyEmail/:token/:otp',registerEmail.verifyEmail);
 router.post('/verifyEmail',registerEmail.verifyOtp);
-router.post('/forgetPassword',registerEmail.forgetPassword);
-router.post('/verifyResetOtp',registerEmail.verifyResetOtp);
-router.post('/resetPassword',registerEmail.saveNewPassword);
+router.post('/forgetPasswordEmail',registerEmail.forgetPassword);
+router.post('/verifyResetPassEmail',registerEmail.verifyResetOtp);
+router.post('/resetPasswordEmail',registerEmail.saveNewPassword);
 
 //GET FETCH USER API
 router.post('/fetchUser',fetchUser.fetchUser);

@@ -264,7 +264,7 @@ var verifyOtp = ((req,res)=>{
                      }
                      if(!saved){
                          console.log('saveed',saved);
-                         return  res.json({code: 101, status: false, message : 'Please Try Again'});
+                         return  res.json({code: 101, status: false, message : 'Otp Verification Failed Please Try Again'});
                      }
                      return res.json({code: 100, status : true, message: 'E-mail Verified SuccessFully'});
                  })
