@@ -163,7 +163,7 @@ var verifyMobileNumber = ((req,res)=>{
     sendOtp.verify(mobile,verifyOtp,((resp,err)=>{
         console.log('ERROROOROROOROOROOROOR',err);
         if(err.type == 'error'){
-            return res.json({code : 101, status : false, message : 'Invalid Otp'});
+            return res.json({code : 101, status : false, message : 'Enter Correct Otp'});
         }else{
         if(err.type = 'sucsess'){
             user.query('UPDATE `tb_user` SET verifyNumber=true WHERE mobile = ?',req.body.mobile ,function(err,rs){
@@ -274,11 +274,16 @@ var forgetPass = ((req,res)=>{
         if(err){
             return res.json({code : 101, status: false, message: 'Oops! There is an error'});
         }else {
+            if(!data[0] ||data[0] ==null ||data[0] ==undefined || data[0]=='')return res.send({code : 101, status: false, message: "User does not exist"});
+            if(data[0].verifyNumber == 0) {
+                return res.json({code : 101,status: false, message :"Please activate Your Account First"});
+             }else {
             console.log('dataaaaaaaaaaaaaaa',data);
             sendOtp.send(req.body.mobile , "NEEMAP", function(err,resp){
                 return res.json({code : 100, status: true , message : 'Otp Sent On Registered Mobile No.'})
             })
         }
+    }
     })
 })
 
@@ -290,7 +295,7 @@ var verifyResetPass = ((req,res)=>{
     sendOtp.verify(mobile,verifyOtp,((resp,err)=>{
         console.log('ERROROOROROOROOROOROOR',err);
         if(err.type == 'error'){
-            return res.json({code : 101, status : false, message : 'Invalid Otp'});
+            return res.json({code : 101, status : false, message : 'Enter Correct Otp'});
         }else{
         if(err.type = 'sucsess'){
             user.query('UPDATE `tb_user` SET verifyNumber=true WHERE mobile = ?',req.body.mobile ,function(err,rs){
@@ -300,7 +305,7 @@ var verifyResetPass = ((req,res)=>{
                 }
             })
         }else{
-            return res.json({code : 101, status: false, message: 'Otp Verification Failed'})
+            return res.json({code : 101, status: false, message: 'Otp Verification Failed Please Try Again'})
         }
 
     }
