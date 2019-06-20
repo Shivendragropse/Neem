@@ -75,7 +75,7 @@ console.log('req.body',req.body);
         return res.json({code: 101, status : false, message : errorMessage[0], data:{}})
     }else {
         if(req.body.userRole == 1){
-        user.query("SELECT COUNT(*) AS cnt FROM tb_user WHERE email = ?",req.body.email, function(err, data){
+        user.query("SELECT COUNT(*) AS cnt FROM user WHERE email = ?",req.body.email, function(err, data){
             console.log('123456799',data);
             if(err){
                 return res.json({code : 101, status : false, message : 'Something Went Wrong'});
@@ -97,7 +97,7 @@ console.log('req.body',req.body);
                         return res.json({code: 101 ,status : false, message : 'Network Error. Unable to send email currently'})
                     }else{
                         // console.log('infooooooooooooooooooo', info);
-                        user.query("INSERT INTO tb_user SET ?",log , function(err , insert) {
+                        user.query("INSERT INTO user SET ?",log , function(err , insert) {
                             // console.log('insertttttt',err,insert);
                             if(err) {
                                 return res.json({code : 101 , status : false, message : 'Some Technical Problem', data :{}});
@@ -114,7 +114,7 @@ console.log('req.body',req.body);
             }
         })
            }else if (req.body.userRole == 2){
-            user.query("SELECT COUNT(*) AS cnt FROM tb_user WHERE email = ?",req.body.email, function(err, data){
+            user.query("SELECT COUNT(*) AS cnt FROM user WHERE email = ?",req.body.email, function(err, data){
                 if(err){
                     return res.json({code : 101, status : false, message : 'Something Went Wrong'});
                 }else {
@@ -135,7 +135,7 @@ console.log('req.body',req.body);
                             return res.json({code: 101 ,status : false, message : 'Network Error. Unable to send email currently'})
                         }else{
                             console.log('infooooooooooooooooooo', info);
-                            user.query("INSERT INTO tb_user SET ?",log , function(err , insert) {
+                            user.query("INSERT INTO user SET ?",log , function(err , insert) {
                                 console.log('insertttttt',err,insert);
                                 if(err) {
                                     return res.json({code : 101 , status : false, message : 'Some Technical Problem', data :{}});
@@ -152,7 +152,7 @@ console.log('req.body',req.body);
                 }
             })
            }else if (req.body.userRole == 3){
-            user.query("SELECT COUNT(*) AS cnt FROM tb_user WHERE email = ?",req.body.email, function(err, data){
+            user.query("SELECT COUNT(*) AS cnt FROM user WHERE email = ?",req.body.email, function(err, data){
                 console.log('123456789',data[0]);
                 if(err){
                     return res.json({code : 101, status : false, message : 'Something Went Wrong'});
@@ -174,7 +174,7 @@ console.log('req.body',req.body);
                             return res.json({code: 101 ,status : false, message : 'Network Error. Unable to send email currently', data:{}})
                         }else{
                             // console.log('infooooooooooooooooooo', info);
-                            user.query("INSERT INTO tb_user SET ?",log , function(err , insert) {
+                            user.query("INSERT INTO user SET ?",log , function(err , insert) {
                                 // console.log('insertttttt',err,insert);
                                 if(err) {
                                     return res.json({code : 101 , status : false, message : 'Some Technical Problem', data :{}});
@@ -206,7 +206,7 @@ console.log('req.body',req.body);
 //      if(!Token || Token == null || Token == '' || Token==undefined || !otp ||otp==''){
 //          return res.json({status: false, message:"There is something wrong with the verification.Please retry."});
 //      }
-//      user.query('SELECT * FROM tb_user WHERE activeEmailOtp =?', Token, function(err, data){
+//      user.query('SELECT * FROM user WHERE activeEmailOtp =?', Token, function(err, data){
 //          console.log('987654',data);
 //          if(err){
 //              console.log('ERROR',err);
@@ -217,7 +217,7 @@ console.log('req.body',req.body);
 //              return res.json({code: 101, status : false, message : 'Error! Account already activated'});
 //          }
 //          else{
-//              user.query('UPDATE `tb_user` SET activeEmail=true ', function(err,saved){
+//              user.query('UPDATE `user` SET activeEmail=true ', function(err,saved){
 //                  if(err){
 //                      console.log('errrrr',err);
 //                      return res.json({code:101, status : false, message : 'Some Error With Query'})
@@ -242,7 +242,7 @@ var verifyOtp = ((req,res)=>{
     var email = req.body.email;
     var otp = req.body.otp;
     // try {
-        user.query('SELECT * FROM tb_user WHERE email ="'+email+'"  AND otp = "'+otp+'"' , function (error, results){
+        user.query('SELECT * FROM user WHERE email ="'+email+'"  AND otp = "'+otp+'"' , function (error, results){
          console.log('999999',results !== null);            
             if (error) {
                 console.log('errrr2222',err);
@@ -257,7 +257,7 @@ var verifyOtp = ((req,res)=>{
             // if(results[0].activeEmail>0){
             //     return res.json({code : 101, status : false, message : 'Error! Account already verified'})
             // } else{
-                 user.query('UPDATE `tb_user` SET activeEmail=true AND otp ="'+otp+'"', function(err,saved){
+                 user.query('UPDATE `user` SET activeEmail=true AND otp ="'+otp+'"', function(err,saved){
                      if(err){
                          console.log('errrrr',err);
                          return res.json({code:101, status : false, message : 'Some Error With Query'})
@@ -285,7 +285,7 @@ var forgetPassword = ((req,res)=>{
     const Otp = randomstring.generate(4);
     var otp = Otp;
 
-    user.query('SELECT * FROM tb_user WHERE email =?',email, function(err,data){
+    user.query('SELECT * FROM user WHERE email =?',email, function(err,data){
         console.log('datareset',data);
         if(err)
       return res.json({code : 101, status : false, message : ' Oops! There is an error'});
@@ -310,7 +310,7 @@ var forgetPassword = ((req,res)=>{
              if(err){
                  return res.json({code : 101,status : false , message: "Error Sending Activation Link"});
              }else {
-                 user.query('UPDATE `tb_user` SET  otp ="'+otp+'" WHERE email=?',email,function(err,saved){
+                 user.query('UPDATE `user` SET  otp ="'+otp+'" WHERE email=?',email,function(err,saved){
                     //  console.log('err',log);s
                     if(err)
                         return res.json({code: 101, status : false, message : 'Please Try Again'});
@@ -333,7 +333,7 @@ var verifyResetOtp = ((req,res)=>{
     var email = req.body.email;
     var otp = req.body.otp;
     // try {
-        user.query('SELECT * FROM tb_user WHERE email ="'+email+'"  AND otp = "'+otp+'"' , function (error, results){
+        user.query('SELECT * FROM user WHERE email ="'+email+'"  AND otp = "'+otp+'"' , function (error, results){
          console.log('999999',results !== null);            
             if (error) {
                 console.log('errrr2222',err);
@@ -359,7 +359,7 @@ var saveNewPassword = ((req,res)=>{
     var email = req.body.email;
     // try{
         if(!password || password === null || password === '') return res.json({code :101 , status : false, message : 'Enter Password'});
-        user.query('SELECT * FROM tb_user WHERE email =?',email, async function(err,data){
+        user.query('SELECT * FROM user WHERE email =?',email, async function(err,data){
             if (err){
                 return res.json({code : 101 , status : false, message : 'Error Occured'});
             }else {
@@ -371,7 +371,7 @@ var saveNewPassword = ((req,res)=>{
                 
                 }
                  else{ 
-                      user.query('UPDATE `tb_user` SET password ="'+pass+'" WHERE email ="'+email+'"', function(err,save){
+                      user.query('UPDATE `user` SET password ="'+pass+'" WHERE email ="'+email+'"', function(err,save){
                         if(err) {
                             console.log('err',err);
                             return res.json({code : 101, status : false, message : 'SomeThing Went Wrong'});

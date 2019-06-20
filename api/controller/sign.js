@@ -2,6 +2,8 @@ var user = require('../../model/user');
 var bcrypt = require('bcryptjs');
 var SendOtp = require('sendotp');
 var sendOtp = new SendOtp('277721ALds15TD095ce418d7');
+var jwt = require('jsonwebtoken');
+var JWTSECRET = 'shivendra123';
 
 
 var registerMobile = ((req,res)=>{
@@ -50,7 +52,7 @@ var registerMobile = ((req,res)=>{
         return res.json({code : 101, status : false, message : errorMessage[0], data : {}});
     }else{
     if (req.body.userRole == 1){
-    user.query("SELECT COUNT(*) AS cnt FROM tb_user WHERE mobile = ? ", req.body.mobile, function(err , data){
+    user.query("SELECT COUNT(*) AS cnt FROM user WHERE mobile = ? ", req.body.mobile, function(err , data){
         console.log('66666',data[0]);
     if(err){
         console.log('eeeeeeeeeeeeeeeeee',err);
@@ -62,7 +64,7 @@ var registerMobile = ((req,res)=>{
             console.log('1111',data[0].cnt > 0);
             return res.json({code : 101, status :false, message : 'Mobile no. Already Exists Please try with a different Mobile No.',data:{}});
         }else{
-            user.query('INSERT INTO tb_user SET ?' , log, function(err , insert){
+            user.query('INSERT INTO user SET ?' , log, function(err , insert){
                if(err){
         console.log('errorrrrrrrrrrrrrrrrrr',err);
                    return res.json({code : 101, status :false, message : 'Some Technical Problem',data:{}});
@@ -83,7 +85,7 @@ var registerMobile = ((req,res)=>{
     }
 })
     }else  if (req.body.userRole == 2){
-        user.query("SELECT COUNT(*) AS cnt FROM tb_user WHERE mobile = ? ", req.body.mobile, function(err , data){
+        user.query("SELECT COUNT(*) AS cnt FROM user WHERE mobile = ? ", req.body.mobile, function(err , data){
             console.log('66666',data);
         if(err){
             console.log('eeeeeeeeeeeeeeeeee',err);
@@ -95,7 +97,7 @@ var registerMobile = ((req,res)=>{
                 console.log('1111',data[0].cnt > 0);
                 return res.json({code : 101, status :false, message : 'Mobile no. Already Exists Please try with a different Mobile No.',data:{}});
             }else{
-                user.query('INSERT INTO tb_user SET ?' , log, function(err , insert){
+                user.query('INSERT INTO user SET ?' , log, function(err , insert){
                    if(err){
             console.log('errorrrrrrrrrrrrrrrrrr',err);
                        return res.json({code : 101, status :false, message : 'Some Technical Problem',data:{}});
@@ -115,7 +117,7 @@ var registerMobile = ((req,res)=>{
         }
     })
     } else if (req.body.userRole == 3){
-        user.query("SELECT COUNT(*) AS cnt FROM tb_user WHERE mobile = ? ", req.body.mobile, function(err , data){
+        user.query("SELECT COUNT(*) AS cnt FROM user WHERE mobile = ? ", req.body.mobile, function(err , data){
             console.log('66666',data);
         if(err){
             console.log('eeeeeeeeeeeeeeeeee',err);
@@ -127,7 +129,7 @@ var registerMobile = ((req,res)=>{
                 console.log('1111',data[0].cnt > 0);
                 return res.json({code : 101, status :false, message : 'Mobile no. Already Exists Please try with a different Mobile No.',data:{}});
             }else{
-                user.query('INSERT INTO tb_user SET ?' , log, function(err , insert){
+                user.query('INSERT INTO user SET ?' , log, function(err , insert){
                    if(err){
             console.log('errorrrrrrrrrrrrrrrrrr',err);
                        return res.json({code : 101, status :false, message : 'Some Technical Problem',data:{}});
@@ -166,7 +168,7 @@ var verifyMobileNumber = ((req,res)=>{
             return res.json({code : 101, status : false, message : 'Enter Correct Otp'});
         }else{
         if(err.type = 'sucsess'){
-            user.query('UPDATE `tb_user` SET verifyNumber=true WHERE mobile = ?',req.body.mobile ,function(err,rs){
+            user.query('UPDATE `user` SET verifyNumber=true WHERE mobile = ?',req.body.mobile ,function(err,rs){
                 console.log('0000000000000',err,rs)
                 if(rs){
                     return res.json({code : 100, status: true, message : 'Otp Verified'});
@@ -211,7 +213,7 @@ var login  = ((req,res)=>{
     // try{
         if(req.body.mobile  ){
           
-            user.query('SELECT * FROM tb_user WHERE mobile ="'+mobile+'"  AND userRole = "'+userRole+'"' , async function (error, results, fields) {
+            user.query('SELECT * FROM user WHERE mobile ="'+mobile+'"  AND userRole = "'+userRole+'"' , async function (error, results, fields) {
                 console.log('resultsssssssssssss',results);
               if (error) {
                 console.log('errrrrrrrrrrrrrrrrrrrrr',error);
@@ -235,7 +237,7 @@ var login  = ((req,res)=>{
             });
         }
        else if (req.body.email){
-            user.query('SELECT * FROM tb_user WHERE email ="'+email+'"   AND userRole = "'+userRole+'"'  ,async function (error, results, fields) {
+            user.query('SELECT * FROM user WHERE email ="'+email+'"   AND userRole = "'+userRole+'"'  ,async function (error, results, fields) {
 
             
           if (error) {
@@ -245,7 +247,11 @@ var login  = ((req,res)=>{
             if(results.length >0){
                 if(results[0].activeEmail > 0){
                 if( await bcrypt.compare(req.body.password,results[0].password)){
-                   return  res.json({code : 100, status:true, message:'Login successfully', data :{results}});
+                   
+                    const token = jwt.sign({id: results[0].id},JWTSECRET);
+                    console.log('jwt',results[0].id);
+                     res.cookie('jwtToken',[token,true]);
+                   return  res.json({code : 100, status:true, message:'Login successfully', token : token, data :{results}});
                 }else{
                   return   res.json({code : 101,status:false,message:"E-mail and password does not match", data :{}});
                 }
@@ -270,7 +276,7 @@ var login  = ((req,res)=>{
 var forgetPass = ((req,res)=>{
     var mobile = req.body.mobile;
 
-    user.query("SELECT * FROM tb_user WHERE mobile =?", mobile, function(err,data){
+    user.query("SELECT * FROM user WHERE mobile =?", mobile, function(err,data){
         if(err){
             return res.json({code : 101, status: false, message: 'Oops! There is an error'});
         }else {
@@ -298,7 +304,7 @@ var verifyResetPass = ((req,res)=>{
             return res.json({code : 101, status : false, message : 'Enter Correct Otp'});
         }else{
         if(err.type = 'sucsess'){
-            user.query('UPDATE `tb_user` SET verifyNumber=true WHERE mobile = ?',req.body.mobile ,function(err,rs){
+            user.query('UPDATE `user` SET verifyNumber=true WHERE mobile = ?',req.body.mobile ,function(err,rs){
                 console.log('0000000000000',err,rs)
                 if(rs){
                     return res.json({code : 100, status: true, message : 'Otp Verified'});
@@ -316,7 +322,7 @@ var saveNewPassword = ((req,res)=>{
     var mobile = req.body.mobile;
     var password = req.body.password;
 
-    user.query('SELECT * FROM tb_user WHERE mobile =?',mobile, async function(err,results){
+    user.query('SELECT * FROM user WHERE mobile =?',mobile, async function(err,results){
         if(err){
             return res.json({code: 101, status: false, message: 'Some Error With Query'});
         }else{
@@ -325,7 +331,7 @@ var saveNewPassword = ((req,res)=>{
             if(await bcrypt.compare(req.body.password, results[0].password)){
                 return res.json({code:101, status: false, message: 'Can Not Set Old The Password Please Use Another One'})
             }else {
-                user.query('UPDATE `tb_user` SET password ="'+pass+'" WHERE mobile ="'+mobile+'"', function(err,save){
+                user.query('UPDATE `user` SET password ="'+pass+'" WHERE mobile ="'+mobile+'"', function(err,save){
                     if(err){
                         return res.json({code: 101, status : false, message : 'SomeThing Went Wrong'});
                     }else{
@@ -339,4 +345,15 @@ var saveNewPassword = ((req,res)=>{
     })
 })
 
-module.exports = {registerMobile,login,verifyMobileNumber,forgetPass,verifyResetPass,saveNewPassword};
+
+var signout = ((req,res)=>{
+      console.log('11111',res);
+    res.clearCookie('jwtToken')
+    console.log('22222',res.clearCookie);
+    return res.json({
+        status: true, 
+        message : 'Logout SuccessFully'
+    })
+})
+
+module.exports = {registerMobile,login,verifyMobileNumber,forgetPass,verifyResetPass,saveNewPassword,signout};
